@@ -1,0 +1,37 @@
+name: Build Catalog Index
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Build catalog index
+        run: |
+          chmod +x ./scripts/build-index.sh
+          ./scripts/build-index.sh
+
+      - name: Commit catalog.yaml if changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet catalog.yaml 2>/dev/null; then
+            echo "No changes to catalog.yaml"
+          else
+            git add catalog.yaml
+            git commit -m "chore: regenerate catalog.yaml"
+            git push
+          fi

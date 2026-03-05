@@ -1,0 +1,8 @@
+name: agent-activity-report
+displayName: "Agent Activity Report"
+description: "Weekly composite report of development activity across Codex, Gemini CLI, and Goose open-source AI agent projects"
+category: reporting
+tags: [multi-repo, activity-metrics, llm-analysis, blob-publishing]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

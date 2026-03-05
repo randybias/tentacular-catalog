@@ -1,0 +1,8 @@
+name: uptime-prober
+displayName: "Uptime Prober"
+description: "Probe HTTP endpoints on a cron schedule and alert when any are down"
+category: monitoring
+tags: [monitoring, health-check, frequent-polling, dynamic-targets]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

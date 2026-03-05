@@ -1,0 +1,8 @@
+name: sep-tracker
+displayName: "SEP Tracker"
+description: "Track MCP SEP proposals from GitHub PRs, diff changes, generate HTML reports, store to Postgres, notify Slack"
+category: reporting
+tags: [github-tracking, diff-detection, html-rendering, blob-storage, multi-dependency]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

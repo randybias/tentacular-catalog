@@ -1,0 +1,8 @@
+name: sep-weekly-digest
+displayName: "SEP Weekly Digest"
+description: "Weekly SEP activity digest with LLM-powered analysis, trend tracking, and health scoring"
+category: reporting
+tags: [github-tracking, db-analytics, llm-analysis, blob-publishing, complex-dag]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

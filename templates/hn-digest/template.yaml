@@ -1,0 +1,8 @@
+name: hn-digest
+displayName: "Hacker News Digest"
+description: "Fetch and filter top Hacker News stories into a formatted digest"
+category: data-pipeline
+tags: [public-api, news-aggregation, no-auth-required]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

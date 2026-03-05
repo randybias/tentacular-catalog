@@ -1,0 +1,7 @@
+{
+  "input": {},
+  "expected": {
+    "skipped": true,
+    "reason": "missing service account token"
+  }
+}

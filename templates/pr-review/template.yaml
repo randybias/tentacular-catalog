@@ -1,0 +1,8 @@
+name: pr-review
+displayName: "PR Review"
+description: "Agentic PR review with parallel scanning and Claude synthesis, triggered by GitHub webhook"
+category: automation
+tags: [webhook-triggered, fan-in-pattern, advanced-dag, security-scanning, llm-synthesis]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

@@ -1,0 +1,8 @@
+name: ai-news-roundup
+displayName: "AI News Roundup"
+description: "Daily AI and agentic news roundup — fetch, filter, summarize via LLM, post to Slack"
+category: reporting
+tags: [rss-parsing, llm-summarization, multi-source, news-aggregation]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: advanced

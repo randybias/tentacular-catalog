@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tentacular Catalog</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0f14;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  header h1 span {
+    color: #00e5cc;
+  }
+
+  header p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+  }
+
+  .controls {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  .search-bar {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #111820;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-bar:focus {
+    border-color: #00e5cc;
+    box-shadow: 0 0 0 2px rgba(0, 229, 204, 0.15);
+  }
+
+  .search-bar::placeholder { color: #6b7280; }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    align-items: center;
+  }
+
+  .filter-label {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 0.25rem;
+  }
+
+  .filter-pill {
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid #1e293b;
+    background: #111820;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .filter-pill:hover {
+    border-color: #00e5cc;
+    color: #e2e8f0;
+  }
+
+  .filter-pill.active {
+    background: rgba(0, 229, 204, 0.12);
+    border-color: #00e5cc;
+    color: #00e5cc;
+  }
+
+  .results-count {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem 0.5rem;
+    color: #6b7280;
+    font-size: 0.85rem;
+  }
+
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .card {
+    background: #111820;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    border-color: #00e5cc;
+    box-shadow: 0 0 16px rgba(0, 229, 204, 0.1);
+  }
+
+  .card-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.15rem;
+  }
+
+  .card-display-name {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-description {
+    font-size: 0.92rem;
+    color: #e2e8f0;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .badge-category {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(0, 255, 136, 0.12);
+    color: #00ff88;
+    text-transform: capitalize;
+  }
+
+  .badge-complexity {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge-complexity.simple {
+    background: rgba(0, 255, 136, 0.12);
+    color: #00ff88;
+  }
+
+  .badge-complexity.moderate {
+    background: rgba(250, 204, 21, 0.12);
+    color: #facc15;
+  }
+
+  .badge-complexity.advanced {
+    background: rgba(248, 113, 113, 0.12);
+    color: #f87171;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag {
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(0, 229, 204, 0.08);
+    color: #00e5cc;
+    font-size: 0.72rem;
+    border: 1px solid rgba(0, 229, 204, 0.15);
+  }
+
+  .card-author {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+  }
+
+  .install-section {
+    background: #0a0f14;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .install-cmd {
+    flex: 1;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.8rem;
+    color: #00e5cc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid #1e293b;
+    border-radius: 4px;
+    color: #94a3b8;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .copy-btn:hover {
+    border-color: #00e5cc;
+    color: #00e5cc;
+  }
+
+  .copy-btn.copied {
+    color: #00ff88;
+    border-color: #00ff88;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #6b7280;
+    font-size: 1.1rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    border-top: 1px solid #1e293b;
+    color: #6b7280;
+    font-size: 0.85rem;
+  }
+
+  footer a {
+    color: #00e5cc;
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.75rem; }
+    .grid { grid-template-columns: 1fr; }
+    .filter-row { gap: 0.35rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span>~</span> tentacular <span>catalog</span></h1>
+  <p>Workflow templates for the tentacular platform</p>
+</header>
+
+<div class="controls">
+  <input type="text" class="search-bar" id="search" placeholder="Search templates by name, description, or tags..." autocomplete="off">
+  <div class="filter-row">
+    <span class="filter-label">Category:</span>
+    <button class="filter-pill active" data-filter="category" data-value="all">All</button>
+    <button class="filter-pill" data-filter="category" data-value="starter">Starter</button>
+    <button class="filter-pill" data-filter="category" data-value="data-pipeline">Data Pipeline</button>
+    <button class="filter-pill" data-filter="category" data-value="monitoring">Monitoring</button>
+    <button class="filter-pill" data-filter="category" data-value="automation">Automation</button>
+    <button class="filter-pill" data-filter="category" data-value="reporting">Reporting</button>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Complexity:</span>
+    <button class="filter-pill active" data-filter="complexity" data-value="all">All</button>
+    <button class="filter-pill" data-filter="complexity" data-value="simple">Simple</button>
+    <button class="filter-pill" data-filter="complexity" data-value="moderate">Moderate</button>
+    <button class="filter-pill" data-filter="complexity" data-value="advanced">Advanced</button>
+  </div>
+</div>
+
+<div class="results-count" id="results-count"></div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  <p>tentacular catalog &mdash; <a href="https://github.com/randybias/tentacular-catalog" target="_blank" rel="noopener">GitHub</a></p>
+</footer>
+
+<script>
+(function () {
+  var templates = [];
+  var activeCategory = 'all';
+  var activeComplexity = 'all';
+  var searchQuery = '';
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function renderCards(items) {
+    var grid = document.getElementById('grid');
+    var count = document.getElementById('results-count');
+
+    if (items.length === 0) {
+      grid.innerHTML = '<div class="empty-state">No templates match your filters.</div>';
+      count.textContent = '0 templates';
+      return;
+    }
+
+    count.textContent = items.length + ' template' + (items.length !== 1 ? 's' : '');
+    var html = '';
+
+    for (var i = 0; i < items.length; i++) {
+      var t = items[i];
+      var complexityClass = t.complexity || 'moderate';
+      var tagsHtml = '';
+      if (t.tags && t.tags.length) {
+        for (var j = 0; j < t.tags.length; j++) {
+          tagsHtml += '<span class="tag">' + escapeHtml(t.tags[j]) + '</span>';
+        }
+      }
+      var cmd = 'tntc catalog init ' + t.name;
+
+      html += '<div class="card">' +
+        '<div class="card-name">' + escapeHtml(t.name) + '</div>' +
+        '<div class="card-display-name">' + escapeHtml(t.displayName || '') + '</div>' +
+        '<div class="badge-row">' +
+          '<span class="badge-category">' + escapeHtml(t.category || '') + '</span>' +
+          '<span class="badge-complexity ' + escapeHtml(complexityClass) + '">' + escapeHtml(complexityClass) + '</span>' +
+        '</div>' +
+        '<div class="card-description">' + escapeHtml(t.description || '') + '</div>' +
+        '<div class="tags">' + tagsHtml + '</div>' +
+        '<div class="card-author">by ' + escapeHtml(t.author || 'unknown') + '</div>' +
+        '<div class="install-section">' +
+          '<span class="install-cmd">' + escapeHtml(cmd) + '</span>' +
+          '<button class="copy-btn" data-cmd="' + escapeHtml(cmd) + '">Copy</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    grid.innerHTML = html;
+  }
+
+  function filterTemplates() {
+    var q = searchQuery.toLowerCase();
+    var filtered = [];
+
+    for (var i = 0; i < templates.length; i++) {
+      var t = templates[i];
+
+      if (activeCategory !== 'all' && t.category !== activeCategory) continue;
+      if (activeComplexity !== 'all' && t.complexity !== activeComplexity) continue;
+
+      if (q) {
+        var haystack = [
+          t.name || '',
+          t.displayName || '',
+          t.description || '',
+          (t.tags || []).join(' ')
+        ].join(' ').toLowerCase();
+
+        if (haystack.indexOf(q) === -1) continue;
+      }
+
+      filtered.push(t);
+    }
+
+    renderCards(filtered);
+  }
+
+  function initFilters() {
+    var pills = document.querySelectorAll('.filter-pill');
+
+    for (var i = 0; i < pills.length; i++) {
+      pills[i].addEventListener('click', function () {
+        var filterType = this.getAttribute('data-filter');
+        var value = this.getAttribute('data-value');
+
+        var siblings = document.querySelectorAll('.filter-pill[data-filter="' + filterType + '"]');
+        for (var j = 0; j < siblings.length; j++) {
+          siblings[j].classList.remove('active');
+        }
+        this.classList.add('active');
+
+        if (filterType === 'category') activeCategory = value;
+        if (filterType === 'complexity') activeComplexity = value;
+
+        filterTemplates();
+      });
+    }
+
+    document.getElementById('search').addEventListener('input', function () {
+      searchQuery = this.value;
+      filterTemplates();
+    });
+
+    document.getElementById('grid').addEventListener('click', function (e) {
+      if (e.target.classList.contains('copy-btn')) {
+        var cmd = e.target.getAttribute('data-cmd');
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(cmd).then(function () {
+            e.target.textContent = 'Copied!';
+            e.target.classList.add('copied');
+            setTimeout(function () {
+              e.target.textContent = 'Copy';
+              e.target.classList.remove('copied');
+            }, 1500);
+          });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = cmd;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          e.target.textContent = 'Copied!';
+          e.target.classList.add('copied');
+          setTimeout(function () {
+            e.target.textContent = 'Copy';
+            e.target.classList.remove('copied');
+          }, 1500);
+        }
+      }
+    });
+  }
+
+  fetch('data/catalog.json')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      templates = data.templates || [];
+      initFilters();
+      filterTemplates();
+    })
+    .catch(function (err) {
+      document.getElementById('grid').innerHTML =
+        '<div class="empty-state">Failed to load catalog data. Run site/build.sh to generate it.</div>';
+      console.error('Failed to load catalog:', err);
+    });
+})();
+</script>
+
+</body>
+</html>

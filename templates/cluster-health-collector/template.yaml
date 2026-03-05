@@ -1,0 +1,8 @@
+name: cluster-health-collector
+displayName: "Cluster Health Collector"
+description: "Collect K8s cluster health data every 5 minutes and store in Postgres"
+category: monitoring
+tags: [k8s-monitoring, in-cluster, db-persistence, health-metrics]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

@@ -1,0 +1,8 @@
+name: word-counter
+displayName: "Word Counter"
+description: "Tokenize text, count words, and produce a report -- ideal for e2e testing"
+category: starter
+tags: [beginner-friendly, pure-transform, e2e-test]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: simple

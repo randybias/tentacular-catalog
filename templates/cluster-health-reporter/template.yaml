@@ -1,0 +1,8 @@
+name: cluster-health-reporter
+displayName: "Cluster Health Reporter"
+description: "Generate daily cluster health report from Postgres data and send to Slack"
+category: reporting
+tags: [db-querying, llm-analysis, trend-reporting, slack-notification]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

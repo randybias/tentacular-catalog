@@ -1,0 +1,8 @@
+name: pr-digest
+displayName: "PR Digest"
+description: "Fetch GitHub PRs, summarize with Claude, and send digest to Slack"
+category: reporting
+tags: [llm-integration, slack-notification, multi-service]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

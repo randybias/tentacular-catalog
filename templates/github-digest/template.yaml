@@ -1,0 +1,8 @@
+name: github-digest
+displayName: "GitHub Digest"
+description: "Fetch GitHub repos and create a summary digest with Slack notification"
+category: reporting
+tags: [api-integration, slack-notification, cron-scheduled]
+author: randybias
+minTentacularVersion: "0.1.0"
+complexity: moderate

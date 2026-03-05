@@ -1,0 +1,54 @@
+name: Validate Templates
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate template.yaml files exist and are valid YAML
+        run: |
+          set -euo pipefail
+          errors=0
+          for dir in templates/*/; do
+            name="$(basename "$dir")"
+            tmpl="$dir/template.yaml"
+            wf="$dir/workflow.yaml"
+
+            if [ ! -f "$tmpl" ]; then
+              echo "ERROR: $tmpl is missing"
+              errors=$((errors + 1))
+              continue
+            fi
+
+            if ! yq eval '.' "$tmpl" > /dev/null 2>&1; then
+              echo "ERROR: $tmpl is not valid YAML"
+              errors=$((errors + 1))
+            fi
+
+            if [ ! -f "$wf" ]; then
+              echo "ERROR: $wf is missing"
+              errors=$((errors + 1))
+            fi
+          done
+
+          if [ "$errors" -gt 0 ]; then
+            echo "Validation failed with $errors error(s)"
+            exit 1
+          fi
+
+          echo "All templates validated successfully"
+
+      - name: Verify build-index.sh runs without error
+        run: |
+          chmod +x ./scripts/build-index.sh
+          ./scripts/build-index.sh
