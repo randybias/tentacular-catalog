@@ -28,6 +28,7 @@ tntc catalog init hn-digest my-news-digest
 | [tentacular-mcp](https://github.com/randybias/tentacular-mcp) | MCP server for Kubernetes lifecycle |
 | [tentacular-skill](https://github.com/randybias/tentacular-skill) | Claude Code skill for building workflows |
 | [tentacular-catalog](https://github.com/randybias/tentacular-catalog) | Workflow template catalog (this repo) |
+| [tentacular-docs](https://github.com/randybias/tentacular-docs) | [Documentation site](https://randybias.github.io/tentacular-docs) |
 
 ## Contributing
 
