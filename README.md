@@ -1,6 +1,8 @@
 # Tentacular Workflow Template Catalog
 
-A browsable catalog of production-ready workflow templates for [tentacular](https://github.com/randybias/tentacular). Templates can be browsed on the web at [randybias.github.io/tentacular-catalog](https://randybias.github.io/tentacular-catalog) or installed via `tntc catalog init`.
+A browsable catalog of production-ready workflow templates for [Tentacular](https://github.com/randybias/tentacular). Templates can be browsed on the web at [randybias.github.io/tentacular-catalog](https://randybias.github.io/tentacular-catalog) or installed via `tntc catalog init`.
+
+**Documentation:** [Catalog Usage Guide](https://randybias.github.io/tentacular-docs/guides/catalog-usage/) | [Template Reference](https://randybias.github.io/tentacular-docs/reference/catalog/agent-activity-report/)
 
 ## Quick Start
 
@@ -33,4 +35,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add a new template to the cata
 
 ## License
 
-MIT -- see [LICENSE](LICENSE).
+Copyright (c) 2025-2026 Mirantis, Inc. All rights reserved. See [LICENSE](LICENSE).
